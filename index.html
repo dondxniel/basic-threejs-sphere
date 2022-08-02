@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			body {
+				margin: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="./three.js"></script>
+		<script>
+			// Our javascript will go here.
+			// Create scene
+			const scene = new THREE.Scene();
+			// Create camera
+			const camera = new THREE.PerspectiveCamera(
+				75,
+				window.innerWidth / window.innerHeight,
+				0.1,
+				1000
+			);
+			// Create geometry
+			const geometry = new THREE.SphereGeometry(7, 9, 7);
+			// Create phong material
+			const material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+			// Create cube with geometry and material
+			const cube = new THREE.Mesh(geometry, material);
+
+			// Add newly created cube to the scene
+			scene.add(cube);
+			// Move the camera backward to see the shape
+			camera.position.z = 15;
+
+			// Create light
+			const light = new THREE.PointLight(0xffffff);
+			light.position.set(-10, 15, 50);
+			scene.add(light);
+
+			// Create and configure renderer
+			const renderer = new THREE.WebGLRenderer();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			// Add renderer to the document
+			document.body.appendChild(renderer.domElement);
+
+			// Create animation function that runs recursively and infinitely
+			function animate() {
+				// Run the recursion
+				requestAnimationFrame(animate);
+				// Rotate the cube
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
+				// Re-render the scene after rotating
+				renderer.render(scene, camera);
+			}
+			animate();
+		</script>
+	</body>
+</html>
